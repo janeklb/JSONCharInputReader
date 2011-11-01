@@ -28,11 +28,11 @@ class JSONCharInputReader
 	 */
 	public function __construct(JSONChunkProcessor $outputInterface)
 	{
-		$this->lastEscaped 		= FALSE;
-		$this->buffer 			= '';
-		$this->state			= self::STATE_OUTSIDE;
-		$this->outputInterface		= $outputInterface;
-		$this->depth			= 0;
+		$this->lastEscaped 	= FALSE;
+		$this->buffer 		= '';
+		$this->state		= self::STATE_OUTSIDE;
+		$this->outputInterface	= $outputInterface;
+		$this->depth		= 0;
 	}
 
 	/**
