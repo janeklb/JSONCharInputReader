@@ -5,3 +5,5 @@ ie. [1, 2, [3, 4], {"five": "six"}, ...
 
 To run the example execute the following in your terminal:
 cat | php example.php
+
+[Terminate with CTRL^D or CTRL^C]
