@@ -66,14 +66,14 @@ class JSONCharInputReader
 				$closing = $this->state === self::STATE_INCURLY ? '}' : ']';
 				$opening = $this->state === self::STATE_INCURLY ? '{' : '[';
 				
-				// if this is another opening brace/bracket character, increase the depth
 				if ($char == $opening)
+					// if this is another opening brace/bracket character, increase the depth
 					$this->depth++;
-				
-				// if this is a closing character, decrease the depth and process the buffer if
-				// the bottom was reached
-				if ($char == $closing && --$this->depth == 0)
+				else if ($char == $closing && --$this->depth == 0)
+					// if this is a closing character, decrease the depth and process the buffer if
+					// the bottom was reached
 					$this->processBuffer();
+				
 				break;
 			
 			// Inside a string
@@ -142,8 +142,11 @@ class JSONCharInputReader
 	 */
 	private function processBuffer()
 	{
-		$this->outputInterface->process($this->buffer);
-		$this->buffer = '';
+		if ($this->buffer !== '')
+		{
+			$this->outputInterface->process($this->buffer);
+			$this->buffer = '';
+		}
 		$this->state = self::STATE_WAITING;
 	}
 }
