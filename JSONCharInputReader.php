@@ -28,11 +28,11 @@ class JSONCharInputReader
 	 */
 	public function __construct(JSONChunkProcessor $outputInterface)
 	{
-		$this->lastEscaped 		= FALSE;
-		$this->buffer 			= '';
-		$this->state			= self::STATE_OUTSIDE;
-		$this->outputInterface 	= $outputInterface;
-		$this->depth			= 0;
+		$this->lastEscaped 	= FALSE;
+		$this->buffer 		= '';
+		$this->state		= self::STATE_OUTSIDE;
+		$this->outputInterface	= $outputInterface;
+		$this->depth		= 0;
 	}
 
 	/**
@@ -63,8 +63,8 @@ class JSONCharInputReader
 				
 				$this->buffer .= $char;
 				
-				$closing = $this->state === self::STATE_INCURLY ? '}' : ']';
-				$opening = $this->state === self::STATE_INCURLY ? '{' : '[';
+				$closing = $this->state == self::STATE_INCURLY ? '}' : ']';
+				$opening = $this->state == self::STATE_INCURLY ? '{' : '[';
 				
 				if ($char == $opening)
 					// if this is another opening brace/bracket character, increase the depth
