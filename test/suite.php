@@ -11,10 +11,7 @@ class JSONChunkProcessorImpl implements JSONChunkProcessor
 
 	public function process($jsonChunk)
 	{
-		echo "\n processing: $jsonChunk\n";
-		$obj = json_decode($jsonChunk);
-		var_dump($obj);
-		$this->objects[] = $obj;
+		$this->objects[] = json_decode($jsonChunk);
 	}
 
 	public function getObjects()

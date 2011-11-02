@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * A few very simple simpletests
+ * @author janeklb
+ *
+ */
 class JSONCarInputReaderTest extends UnitTestCase
 {
 	private $processor;

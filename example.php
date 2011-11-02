@@ -31,12 +31,12 @@ $jsonReader = new JSONCharInputReader($processor);
 $fd = fopen("php://stdin","r");
 while ( !feof($fd) )
 {
-	// read a char at a time
-	$line = fread($fd, 1);
+	// read chars one at a time
+	$char = fread($fd, 1);
 
 	// and process everything but newlines
-	if ($line && $line != "\n")
-		$jsonReader->readChar($line);
+	if ($char && $char != "\n")
+		$jsonReader->readChar($char);
 }
 
 echo "\n\nThanks.. you have processed " . $processor->numProcessed;
