@@ -1,5 +1,12 @@
 <?php
 
+//////////////////////////////////////////////////////////////////////////////
+//                                                                          //
+// Note:                                                                    //
+// Requires SimpleTest 1.0.1 (http://simpletest.org/) in your include path  //
+//                                                                          //
+//////////////////////////////////////////////////////////////////////////////
+
 $testDir = dirname(__FILE__);
 
 require_once $testDir . '/../JSONChunkProcessor.php';

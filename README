@@ -1,6 +1,6 @@
 JSONCharInputReader processes JSON data streams character-by-character
 
-The data stream must in the form of a JSON array.
+The data stream must be in the form of a JSON array.
 ie. [1, 2, [3, 4], {"five": "six"}, ...
 
 To run the example execute the following in your terminal:
