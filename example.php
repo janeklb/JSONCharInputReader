@@ -39,7 +39,6 @@ while ( !feof($fd) )
 		$jsonReader->readChar($char);
 }
 
-echo "\n\nThanks.. you have processed " . $processor->numProcessed;
-echo " JSON objects\n";
+echo "\n\nThanks.. you have processed ",  $processor->numProcessed, " JSON objects\n";
 
 fclose($fd);
