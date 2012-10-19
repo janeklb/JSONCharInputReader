@@ -2,9 +2,9 @@
 
 /**
  * JSONChatInputReader
- * 
+ *
  * @author janeklb
- * 
+ *
  */
 class JSONCharInputReader
 {
@@ -60,12 +60,12 @@ class JSONCharInputReader
 			// Inside some braces/brackets
 			case self::STATE_INCURLY:
 			case self::STATE_INSQUARE:
-				
+
 				$this->buffer .= $char;
-				
+
 				$closing = $this->state == self::STATE_INCURLY ? '}' : ']';
 				$opening = $this->state == self::STATE_INCURLY ? '{' : '[';
-				
+
 				if ($char == $opening)
 					// if this is another opening brace/bracket character, increase the depth
 					$this->depth++;
@@ -73,9 +73,9 @@ class JSONCharInputReader
 					// if this is a closing character, decrease the depth and process the buffer if
 					// the bottom was reached
 					$this->processBuffer();
-				
+
 				break;
-			
+
 			// Inside a string
 			case self::STATE_INSTRING:
 				$this->buffer .= $char;
@@ -86,7 +86,7 @@ class JSONCharInputReader
 
 			// Waiting on any input within a JSON stream
 			case self::STATE_WAITING:
-				
+
 				if ($this->lastEscaped)
 				{
 					// The last character was escaped -- doesn't matter what this one is
@@ -113,7 +113,7 @@ class JSONCharInputReader
 					case '\\':
 						$this->lastEscaped = TRUE;
 						break;
-					
+
 					// This will either mark the end of the JSON data stream itself
 					case ']':
 					// Or the data contained in the buffer
@@ -137,7 +137,7 @@ class JSONCharInputReader
 
 	/**
 	 * Process the JSON data stream's buffer and reset the state
-	 * 
+	 *
 	 * @return void;
 	 */
 	private function processBuffer()
