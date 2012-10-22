@@ -105,14 +105,17 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
     	$this->assertObjects(2, 3, 4, array(1, $objB, array(4, 2)), $objC);
     }
 
-    public function testEscapedString()
+    public function testEscaped()
     {
-        $this->sendInput('{"x": "x\"a"}');
+        $this->sendInput('{"x": "x\"a"},{"a\"b":1}');
 
-        $obj = new stdClass();
-        $obj->x = 'x"a';
+        $objA = new stdClass();
+        $objA->x = 'x"a';
 
-        $this->assertObjects($obj);
+        $objB = new stdClass();
+        $objB->{"a\"b"} = 1;
+
+        $this->assertObjects($objA, $objB);
     }
 }
 
