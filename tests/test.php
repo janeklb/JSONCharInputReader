@@ -7,11 +7,9 @@
 //                                                                          //
 //////////////////////////////////////////////////////////////////////////////
 
+require("vendor/autoload.php");
 
-require_once __DIR__ . '/../JSONChunkProcessor.php';
-require_once __DIR__ . '/../JSONCharInputReader.php';
-
-class JSONChunkProcessorImpl implements JSONChunkProcessor
+class JSONChunkProcessorImpl implements \tdt\json\JSONChunkProcessor
 {
 	private $objects = array();
 
@@ -39,7 +37,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->processor = new JSONChunkProcessorImpl();
-		$this->inputReader = new JSONCharInputReader($this->processor);
+		$this->inputReader = new \tdt\json\JSONCharInputReader($this->processor);
 		$this->inputReader->readChar('[');
 	}
 
@@ -109,10 +107,10 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
     {
         $this->sendInput('{"x": "x\"a"},{"a\"b":1}');
 
-        $objA = new stdClass();
+        $objA = new \stdClass();
         $objA->x = 'x"a';
 
-        $objB = new stdClass();
+        $objB = new \stdClass();
         $objB->{"a\"b"} = 1;
 
         $this->assertObjects($objA, $objB);

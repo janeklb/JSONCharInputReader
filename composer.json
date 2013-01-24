@@ -1,0 +1,19 @@
+{
+    "name": "tdt/json",
+    "description": "Reads a json stream memory efficiently.",
+    "keywords": ["json", "stream", "chunk", "buffer"],
+    "homepage": "http://thedatatank.com",
+    "type": "library",
+    "license": "AGPLv3",
+    "suggest": {
+    },
+    "require": {
+    },
+    "minimum-stability" : "dev",
+    "autoload": {
+        "psr-0": {
+            "tdt\\json\\": "src/"
+        }
+    }
+}
+

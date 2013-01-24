@@ -6,6 +6,8 @@
  * @author janeklb
  *
  */
+namespace tdt\json;
+
 class JSONCharInputReader
 {
 	const STATE_OUTSIDE 	= -1; // Outside of a JSON stream
@@ -46,7 +48,7 @@ class JSONCharInputReader
 	{
 		if (!is_string($char) || strlen($char) != 1)
 		{
-			throw new InvalidArgumentException(__CLASS__ . ': readChar requires a single charater as its input argument');
+			throw new \InvalidArgumentException(__CLASS__ . ': readChar requires a single charater as its input argument');
 		}
 
 		switch ($this->state)
