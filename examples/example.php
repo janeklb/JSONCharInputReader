@@ -1,7 +1,8 @@
 <?php
 
-require_once 'JSONChunkProcessor.php';
-require_once 'JSONCharInputReader.php';
+namespace tdt\json;
+require("../vendor/autoload.php");
+
 
 class JSONChunkProcessorImpl implements JSONChunkProcessor
 {

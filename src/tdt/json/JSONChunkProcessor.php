@@ -6,6 +6,8 @@
  * @author janeklb
  *
  */
+namespace tdt\json;
+
 interface JSONChunkProcessor
 {
 	/**
