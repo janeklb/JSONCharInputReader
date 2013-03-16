@@ -1,17 +1,14 @@
 <?php
 
-//////////////////////////////////////////////////////////////////////////////
-//                                                                          //
-// Note:                                                                    //
-// Requires PHPUnit                                                         //
-//                                                                          //
-//////////////////////////////////////////////////////////////////////////////
+use janeklb\json\ChunkProcessor,
+	janeklb\json\CharInputReader;
 
+require __DIR__ . '/../vendor/autoload.php';
 
-require_once __DIR__ . '/../JSONChunkProcessor.php';
-require_once __DIR__ . '/../JSONCharInputReader.php';
-
-class JSONChunkProcessorImpl implements JSONChunkProcessor
+/**
+ * A sample implementation of a JSON Chunk Processor
+ */
+class JSONChunkProcessorImpl implements ChunkProcessor
 {
 	private $objects = array();
 
@@ -39,7 +36,9 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->processor = new JSONChunkProcessorImpl();
-		$this->inputReader = new JSONCharInputReader($this->processor);
+		$this->inputReader = new CharInputReader($this->processor);
+
+		// trigger the beginning of an array
 		$this->inputReader->readChar('[');
 	}
 
@@ -64,58 +63,58 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-    public function testSingleInteger() {
+	public function testSingleInteger()
+	{
+		$this->sendInput('1');
+		$this->assertObjects();
 
-    	$this->sendInput('1');
-    	$this->assertObjects();
+		$this->sendInput(',');
+		$this->assertObjects(1);
+	}
 
-    	$this->sendInput(',');
-    	$this->assertObjects(1);
-    }
+	public function testArray()
+	{
+		$this->sendInput('[232,2412]');
+		$this->assertObjects(array(232, 2412));
+	}
 
-    public function testArray()
-    {
-    	$this->sendInput('[232,2412]');
-    	$this->assertObjects(array(232, 2412));
-    }
+	public function testObject()
+	{
+		$this->sendInput('{"x": "hello"}');
 
-    public function testObject()
-    {
-    	$this->sendInput('{"x": "hello"}');
+		$test = new stdClass();
+		$test->x = "hello";
+		$this->assertObjects($test);
+	}
 
-    	$test = new stdClass();
-    	$test->x = "hello";
-    	$this->assertObjects($test);
-    }
+	public function testMixed()
+	{
+		$this->sendInput('2, 3, 4, [1, {"y": [1, {"b": "x"}, 3], "o" : 2}, [4, 2]], {"ob": "bo"}');
 
-    public function testMixed()
-    {
-    	$this->sendInput('2, 3, 4, [1, {"y": [1, {"b": "x"}, 3], "o" : 2}, [4, 2]], {"ob": "bo"}');
+		$objA = new stdClass();
+		$objA->b = "x";
 
-    	$objA = new stdClass();
-    	$objA->b = "x";
+		$objB = new stdClass();
+		$objB->y = array(1, $objA, 3);
+		$objB->o = 2;
 
-    	$objB = new stdClass();
-    	$objB->y = array(1, $objA, 3);
-    	$objB->o = 2;
+		$objC = new stdClass();
+		$objC->ob = "bo";
 
-    	$objC = new stdClass();
-    	$objC->ob = "bo";
+		$this->assertObjects(2, 3, 4, array(1, $objB, array(4, 2)), $objC);
+	}
 
-    	$this->assertObjects(2, 3, 4, array(1, $objB, array(4, 2)), $objC);
-    }
+	public function testEscaped()
+	{
+		$this->sendInput('{"x": "x\"a"},{"a\"b":1}');
 
-    public function testEscaped()
-    {
-        $this->sendInput('{"x": "x\"a"},{"a\"b":1}');
+		$objA = new stdClass();
+		$objA->x = 'x"a';
 
-        $objA = new stdClass();
-        $objA->x = 'x"a';
+		$objB = new stdClass();
+		$objB->{"a\"b"} = 1;
 
-        $objB = new stdClass();
-        $objB->{"a\"b"} = 1;
-
-        $this->assertObjects($objA, $objB);
-    }
+		$this->assertObjects($objA, $objB);
+	}
 }
 

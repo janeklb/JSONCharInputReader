@@ -1,12 +1,13 @@
 <?php
 
+namespace janeklb\json;
+
 /**
- * JSONChatInputReader
+ * CharInputReader
  *
  * @author janeklb
- *
  */
-class JSONCharInputReader
+class CharInputReader
 {
 	const STATE_OUTSIDE 	= -1; // Outside of a JSON stream
 	const STATE_WAITING 	= 0;  // Waiting for JSON input
@@ -23,16 +24,16 @@ class JSONCharInputReader
 	/**
 	 * Create a JSONCharInputReader object
 	 *
-	 * @param JSONChunkProcessor $outputInterface the output interface that will be used
-	 *                                                 for processing json 'chunks'
+	 * @param ChunkProcessor $outputInterface the output interface that will be used
+	 *                                        for processing json 'chunks'
 	 */
-	public function __construct(JSONChunkProcessor $outputInterface)
+	public function __construct(ChunkProcessor $outputInterface)
 	{
-		$this->lastEscaped 	= FALSE;
-		$this->buffer 		= '';
-		$this->state		= self::STATE_OUTSIDE;
-		$this->outputInterface	= $outputInterface;
-		$this->depth		= 0;
+		$this->lastEscaped = FALSE;
+		$this->buffer = '';
+		$this->state = self::STATE_OUTSIDE;
+		$this->outputInterface = $outputInterface;
+		$this->depth = 0;
 	}
 
 	/**

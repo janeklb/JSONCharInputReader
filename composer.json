@@ -1,0 +1,23 @@
+{
+    "name": "janeklb/json-char-input-reader",
+    "description": "Read a JSON stream and execute callbacks whenever complete JSON chunks are parsed",
+    "keywords": ["json", "stream", "reader", "chunk"],
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "janeklb": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Janek Lasocki-Biczysko",
+            "email": "janek.lb@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.18"
+    }
+}
