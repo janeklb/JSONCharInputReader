@@ -1,8 +1,8 @@
-JSON\CharInputReader
+json\CharInputReader
 ====================
 
-Is a stream reader used to processe JSON data character-by-character and execute callbacks
-after parsing complete chunks
+This is a stream reader used to process JSON data character-by-character and execute callbacks
+after parsing complete chunks.
 
 The data stream must be in the form of a JSON array.
 ie. `[1, 2, [3, 4], {"five": "six"}, ...`
@@ -23,10 +23,10 @@ Testing
 
 Install composer with dev dependencies `composer install --dev` and run
 ```bash
-$ vendor/bin/phpunit test/
+$ ./vendor/bin/phpunit test/
 ```
 
-TODO
+Todo
 ====
 
 - fire callbacks on deeper nested values, rather than "top level" entries in the stream array
