@@ -31,3 +31,8 @@ Todo
 
 - fire callbacks on deeper nested values, rather than "top level" entries in the stream array
 
+License
+=======
+
+Distributed under the [MIT Licence](LICENSE)
+
