@@ -4,7 +4,7 @@ namespace janeklb\json;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class JSONChunkProcessorImpl implements ChunkProcessor
+class JSONChunkProcessorImpl implements JSONChunkProcessor
 {
 	public $numProcessed = 0;
 
@@ -28,7 +28,7 @@ class JSONChunkProcessorImpl implements ChunkProcessor
 
 
 $processor = new JSONChunkProcessorImpl();
-$jsonReader = new CharInputReader($processor);
+$jsonReader = new JSONCharInputReader($processor);
 
 // This example reads from stdin and processes characters one by one
 $fd = fopen("php://stdin","r");

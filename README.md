@@ -1,4 +1,4 @@
-janeklb\json\CharInputReader
+janeklb\json\JSONCharInputReader
 ====================
 
 This is a stream reader used to process JSON data character-by-character and execute callbacks

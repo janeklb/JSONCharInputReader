@@ -3,11 +3,11 @@
 namespace janeklb\json;
 
 /**
- * CharInputReader uses this interface to process chunks of JSON
+ * JSONCharInputReader uses this interface to process chunks of JSON
  *
  * @author janeklb
  */
-interface ChunkProcessor
+interface JSONChunkProcessor
 {
 	/**
 	 * Subclasses can use this function to process complete "chunks" of data

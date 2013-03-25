@@ -3,11 +3,11 @@
 namespace janeklb\json;
 
 /**
- * CharInputReader
+ * JSONCharInputReader
  *
  * @author janeklb
  */
-class CharInputReader
+class JSONCharInputReader
 {
 	const STATE_OUTSIDE 	= -1; // Outside of a JSON stream
 	const STATE_WAITING 	= 0;  // Waiting for JSON input
@@ -24,10 +24,10 @@ class CharInputReader
 	/**
 	 * Create a JSONCharInputReader object
 	 *
-	 * @param ChunkProcessor $outputInterface the output interface that will be used
-	 *                                        for processing json 'chunks'
+	 * @param JSONChunkProcessor $outputInterface the output interface that will be used
+	 *                                            for processing json 'chunks'
 	 */
-	public function __construct(ChunkProcessor $outputInterface)
+	public function __construct(JSONChunkProcessor $outputInterface)
 	{
 		$this->lastEscaped = FALSE;
 		$this->buffer = '';

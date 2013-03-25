@@ -1,14 +1,14 @@
 <?php
 
-use janeklb\json\ChunkProcessor,
-	janeklb\json\CharInputReader;
+use janeklb\json\JSONChunkProcessor,
+	janeklb\json\JSONCharInputReader;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * A sample implementation of a JSON Chunk Processor
  */
-class JSONChunkProcessorImpl implements ChunkProcessor
+class JSONChunkProcessorImpl implements JSONChunkProcessor
 {
 	private $objects = array();
 
@@ -36,7 +36,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->processor = new JSONChunkProcessorImpl();
-		$this->inputReader = new CharInputReader($this->processor);
+		$this->inputReader = new JSONCharInputReader($this->processor);
 
 		// trigger the beginning of an array
 		$this->inputReader->readChar('[');
