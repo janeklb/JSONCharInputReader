@@ -116,5 +116,16 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 		$this->assertObjects($objA, $objB);
 	}
+
+	public function testBracketsAndBracesInString()
+	{
+		$this->sendInput('{"bracket": "val]ue", "brace": "val}ue"}');
+
+		$obj = new stdClass();
+		$obj->bracket = "val]ue";
+		$obj->brace = "val}ue";
+
+		$this->assertObjects($obj);
+	}
 }
 
