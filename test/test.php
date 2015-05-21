@@ -42,8 +42,16 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		$this->inputReader->readChar('[');
 	}
 
-	private function sendInput($string)
+	private function sendInput($string, $addComma = true)
 	{
+		$string = trim($string);
+
+		// finish with a comma to make sure all inputs are parsed
+		if ($addComma && substr($string, -1) != ',')
+		{
+			$string .= ',';
+		}
+
 		$len = strlen($string);
 		for ($i = 0; $i < $len; $i++)
 		{
@@ -65,10 +73,10 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 	public function testSingleInteger()
 	{
-		$this->sendInput('1');
+		$this->sendInput('1', false);
 		$this->assertObjects();
 
-		$this->sendInput(',');
+		$this->sendInput(',', false);
 		$this->assertObjects(1);
 	}
 
@@ -106,7 +114,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 	public function testEscaped()
 	{
-		$this->sendInput('"abc\"def",');
+		$this->sendInput('"abc\"def"');
 		$this->assertObjects('abc"def');
 	}
 
@@ -125,7 +133,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 	public function testBracketsAndBracesInString()
 	{
-		$this->sendInput('"str}ing", "str]ing", ');
+		$this->sendInput('"str}ing", "str]ing"');
 		$this->assertObjects("str}ing", "str]ing");
 	}
 
@@ -144,6 +152,25 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		$obj->brace = "val}ue";
 
 		$this->assertObjects($obj);
+	}
+
+	public function testNullTrueFalse()
+	{
+		$this->sendInput("true, false, null");
+		$this->assertObjects(true, false, null);
+	}
+
+	public function testNestedObject()
+	{
+		$objA = new stdClass();
+		$objA->subObj = new stdClass();
+		$objA->subObj->foo = "bar";
+		$objA->bleep = "bloop";
+		$objA->boolean = true;
+
+		$this->sendInput(json_encode($objA));
+
+		$this->assertObjects($objA);
 	}
 }
 
