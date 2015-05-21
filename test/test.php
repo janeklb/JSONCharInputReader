@@ -10,16 +10,16 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 class JSONChunkProcessorImpl implements JSONChunkProcessor
 {
-	private $objects = array();
+	private $processed = array();
 
 	public function process($jsonChunk)
 	{
-		$this->objects[] = json_decode($jsonChunk);
+		$this->processed[] = json_decode($jsonChunk);
 	}
 
-	public function getObjects()
+	public function getProcessed()
 	{
-		return $this->objects;
+		return $this->processed;
 	}
 }
 
@@ -59,13 +59,13 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	private function assertObjects()
+	private function assertProcessed()
 	{
-		$objects = $this->processor->getObjects();
+		$processed = $this->processor->getProcessed();
 
-		$this->assertEquals(count($objects), func_num_args());
+		$this->assertEquals(count($processed), func_num_args());
 
-		foreach ($objects as $i => $object)
+		foreach ($processed as $i => $object)
 		{
 			$this->assertEquals($object, func_get_arg($i));
 		}
@@ -74,16 +74,16 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 	public function testSingleInteger()
 	{
 		$this->sendInput('1', false);
-		$this->assertObjects();
+		$this->assertProcessed();
 
 		$this->sendInput(',', false);
-		$this->assertObjects(1);
+		$this->assertProcessed(1);
 	}
 
 	public function testArray()
 	{
 		$this->sendInput('[232,2412]');
-		$this->assertObjects(array(232, 2412));
+		$this->assertProcessed(array(232, 2412));
 	}
 
 	public function testObject()
@@ -92,7 +92,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 		$test = new stdClass();
 		$test->x = "hello";
-		$this->assertObjects($test);
+		$this->assertProcessed($test);
 	}
 
 	public function testMixed()
@@ -109,13 +109,13 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		$objC = new stdClass();
 		$objC->ob = "bo";
 
-		$this->assertObjects(2, 3, 4, array(1, $objB, array(4, 2)), $objC);
+		$this->assertProcessed(2, 3, 4, array(1, $objB, array(4, 2)), $objC);
 	}
 
 	public function testEscaped()
 	{
 		$this->sendInput('"abc\"def"');
-		$this->assertObjects('abc"def');
+		$this->assertProcessed('abc"def');
 	}
 
 	public function testEscapedInObject()
@@ -128,19 +128,19 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		$objB = new stdClass();
 		$objB->{"a\"b"} = 1;
 
-		$this->assertObjects($objA, $objB);
+		$this->assertProcessed($objA, $objB);
 	}
 
 	public function testBracketsAndBracesInString()
 	{
 		$this->sendInput('"str}ing", "str]ing"');
-		$this->assertObjects("str}ing", "str]ing");
+		$this->assertProcessed("str}ing", "str]ing");
 	}
 
 	public function testBracketsAndBracesInArrayString()
 	{
 		$this->sendInput('["str}ing"], ["str]ing"], ["str]ing", "str}ing"]');
-		$this->assertObjects(array("str}ing"), array("str]ing"), array("str]ing", "str}ing"));
+		$this->assertProcessed(array("str}ing"), array("str]ing"), array("str]ing", "str}ing"));
 	}
 
 	public function testBracketsAndBracesInObjectString()
@@ -151,13 +151,13 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 		$obj->bracket = "val]ue";
 		$obj->brace = "val}ue";
 
-		$this->assertObjects($obj);
+		$this->assertProcessed($obj);
 	}
 
 	public function testNullTrueFalse()
 	{
 		$this->sendInput("true, false, null");
-		$this->assertObjects(true, false, null);
+		$this->assertProcessed(true, false, null);
 	}
 
 	public function testNestedObject()
@@ -170,7 +170,7 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 		$this->sendInput(json_encode($objA));
 
-		$this->assertObjects($objA);
+		$this->assertProcessed($objA);
 	}
 }
 
