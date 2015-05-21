@@ -20,6 +20,7 @@ class JSONCharInputReader
 	private $outputInterface;
 	private $state;
 	private $depth;
+	private $quoteCount;
 
 	/**
 	 * Create a JSONCharInputReader object
@@ -34,6 +35,7 @@ class JSONCharInputReader
 		$this->state = self::STATE_OUTSIDE;
 		$this->outputInterface = $outputInterface;
 		$this->depth = 0;
+		$this->quoteCount = 0;
 	}
 
 	/**
@@ -62,7 +64,14 @@ class JSONCharInputReader
 			case self::STATE_INCURLY:
 			case self::STATE_INSQUARE:
 
+				if ($char == '"' && !$this->lastCharIs('\\'))
+					$this->quoteCount++;
+
 				$this->buffer .= $char;
+
+				// if quote count is odd we're inside a string....
+				if ($this->quoteCount % 2)
+					break;
 
 				$closing = $this->state == self::STATE_INCURLY ? '}' : ']';
 				$opening = $this->state == self::STATE_INCURLY ? '{' : '[';
@@ -71,17 +80,22 @@ class JSONCharInputReader
 					// if this is another opening brace/bracket character, increase the depth
 					$this->depth++;
 				else if ($char == $closing && --$this->depth == 0)
+				{
 					// if this is a closing character, decrease the depth and process the buffer if
 					// the bottom was reached
 					$this->processBuffer();
+					$this->quoteCount = 0;
+				}
 
 				break;
 
 			// Inside a string
 			case self::STATE_INSTRING:
-				$this->buffer .= $char;
-				if ($char == '"')
+
+				if ($char == '"' && !$this->lastCharIs('\\'))
 					$this->state = self::STATE_WAITING;
+
+				$this->buffer .= $char;
 
 				break;
 
@@ -134,6 +148,15 @@ class JSONCharInputReader
 				$this->buffer .= $char;
 				break;
 		}
+	}
+
+	private function lastCharIs($char) {
+		$len = strlen($this->buffer);
+		if ($len == 0)
+			return false;
+
+		$lastChar = $this->buffer[$len - 1];
+		return $lastChar === $char;
 	}
 
 	/**

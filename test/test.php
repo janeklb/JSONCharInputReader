@@ -106,6 +106,12 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 
 	public function testEscaped()
 	{
+		$this->sendInput('"abc\"def",');
+		$this->assertObjects('abc"def');
+	}
+
+	public function testEscapedInObject()
+	{
 		$this->sendInput('{"x": "x\"a"},{"a\"b":1}');
 
 		$objA = new stdClass();
@@ -118,6 +124,18 @@ class JSONCarInputReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testBracketsAndBracesInString()
+	{
+		$this->sendInput('"str}ing", "str]ing", ');
+		$this->assertObjects("str}ing", "str]ing");
+	}
+
+	public function testBracketsAndBracesInArrayString()
+	{
+		$this->sendInput('["str}ing"], ["str]ing"], ["str]ing", "str}ing"]');
+		$this->assertObjects(array("str}ing"), array("str]ing"), array("str]ing", "str}ing"));
+	}
+
+	public function testBracketsAndBracesInObjectString()
 	{
 		$this->sendInput('{"bracket": "val]ue", "brace": "val}ue"}');
 
