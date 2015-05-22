@@ -1,7 +1,7 @@
 {
     "name": "janeklb/json-char-input-reader",
     "description": "Read a JSON stream and execute callbacks whenever complete JSON chunks are parsed",
-    "keywords": ["json", "stream", "reader", "chunk"],
+    "keywords": ["json", "stream", "reader", "chunk", "parser"],
     "license": "MIT",
     "autoload": {
         "psr-0": {
